@@ -4,7 +4,8 @@
  */
 package flowers;
 
-import static flowers.db.DBCreate.createQuestion2;
+
+import flowers.db.DBCreate;
 
 /**
  *
@@ -16,6 +17,9 @@ public class Flowers {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        DBCreate.dropTable();
+        DBCreate.createTable();
+        DBCreate.filingDB();
     }
     
 }

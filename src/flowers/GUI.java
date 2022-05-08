@@ -360,7 +360,7 @@ public class GUI extends javax.swing.JFrame {
     private Integer questionNumber;
     private Integer questionSize;
     // End of variables declaration//GEN-END:variables
-    private Integer timeToAnswer = 3;
+    private Integer timeToAnswer = 30;
 
     private List<Answer> answerList;
 

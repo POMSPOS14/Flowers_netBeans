@@ -10,6 +10,8 @@ import flowers.model.Question;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -81,6 +83,12 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                timer(evt);
+            }
+        });
+
         jButton2.setText(question.getPossibleAnswerTwo());
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,14 +141,14 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel1.setText(questionNumber + "/"+ questionSize);
 
-        jLabel2.setText("itTimer");
+        jLabel2.setText("");
 
         jMenu1.setText("Menu");
 
         jMenuItem1.setText("New game");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                newGameStart(evt);
             }
         });
         jMenu1.add(jMenuItem1);
@@ -198,6 +206,45 @@ public class GUI extends javax.swing.JFrame {
         nextQuestion();
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    Timer timer = new Timer(1000, null);
+    int i = 0;
+    private void timer(java.awt.event.ActionEvent evt) {
+        if(timer.isRunning()) {
+            timer.stop();
+        }
+        i = timeToAnswer;
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                i--;
+                if(i > 0){
+                    jLabel2.setText(""+ i);
+                } else {
+                    endDialog(evt);
+                    timer.stop();
+                }
+            }
+        });
+
+        if(questionNumber <= questionSize){
+            timer.start();
+        }
+    }
+
+    private void endDialog(ActionEvent evt) {
+        int dialogResult = JOptionPane.showOptionDialog(jPanel1,
+                "You lose",
+                "Game over",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.ERROR_MESSAGE,
+                null,
+                new String[]{"New game", "Show answer"},
+                "Show answer");
+        if (dialogResult == 0){
+            newGameStart(evt);
+        }
+    }
+
     private void nextQuestion() {
         if (questionNumber<questionSize){
             questionNumber++;
@@ -220,7 +267,7 @@ public class GUI extends javax.swing.JFrame {
         }
     }
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void newGameStart(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         try {
             super.setVisible(false);
             new GUI().setVisible(true);
@@ -229,6 +276,7 @@ public class GUI extends javax.swing.JFrame {
             throw new RuntimeException("Error new game");
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
 
     /**
      * @param args the command line arguments
@@ -282,10 +330,11 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private List<Question> questionList;
-
     private Integer questionNumber;
     private Integer questionSize;
     // End of variables declaration//GEN-END:variables
+    private Integer timeToAnswer = 30;
+
 
     private static void sout(Integer questionNumber, Integer questionSize){
         System.out.println("questionNumber: " + questionNumber);

@@ -13,10 +13,17 @@ import java.util.stream.Stream;
 
 public class DBCreate {
 
+    /**
+     *  Sql команда на удаление таблицы.
+     */
     public static void dropTable() {
         String sql = "drop TABLE IF EXISTS question";
         JDBCExecuter.executeUpdate(sql);
     }
+
+    /**
+     *  Sql команда на создание таблицы.
+     */
     public static void createTable() {
         String sql = "CREATE TABLE question" +
                 "(id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
@@ -29,6 +36,12 @@ public class DBCreate {
         JDBCExecuter.executeUpdate(sql);
     }
 
+    /**
+     * Составление sql команды на заполение таблицы.
+     * Проходится по папке image, выбирает все пути до картинок.
+     * Для каждой картики составляет sql запрос, беря 4 случайных
+     * не повторяющихся значения из этой же папки и выполняет вставку в таблицу.
+     */
     public static void filingDB(){
         Random randomGenerator = new Random();
 

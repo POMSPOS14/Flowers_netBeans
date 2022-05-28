@@ -10,6 +10,9 @@ public class JDBCExecuter {
     public static final String DB_URL = "jdbc:h2:./db/stockExchange";
     public static final String DB_Driver = "org.h2.Driver";
 
+    /**
+     * Запрос вставки данных по sql команде.
+     */
     static void executeUpdate(String command){
         try {
             Class.forName(DB_Driver); //Проверяем наличие db.JDBC драйвера для работы с БД
@@ -29,6 +32,9 @@ public class JDBCExecuter {
         }
     }
 
+    /**
+     * Запрос вопросов по sql команде.
+     */
     static List<Question> executeQuery(String command){
         List<Question> questionList = new ArrayList<>();
         try(Connection connection = DriverManager.getConnection(DB_URL);
@@ -57,6 +63,10 @@ public class JDBCExecuter {
         }
         return null;
     }
+
+    /**
+     * Запрос количества элементов по sql команде.
+     */
     public static Integer executeCount(String command){
         int count = -1;
         try {

@@ -21,4 +21,9 @@ public class QuestionRepository {
         return question;
     }
 
+    public Integer getCountAllQuestion() {
+        String sql = "SELECT COUNT(*) FROM question";
+        return JDBCExecuter.executeCount(sql);
+    }
+
 }

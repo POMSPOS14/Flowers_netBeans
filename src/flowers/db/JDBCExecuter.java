@@ -57,5 +57,30 @@ public class JDBCExecuter {
         }
         return null;
     }
+    public static Integer executeCount(String command){
+        int count = -1;
+        try {
+            Class.forName(DB_Driver); //Проверяем наличие db.JDBC драйвера для работы с БД
+            Connection connection = DriverManager.getConnection(DB_URL);//соединениесБД
+            System.out.println("Соединение с СУБД выполнено.");
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(command);
+            if (resultSet.next())
+            {
+                count = resultSet.getInt(1);
+            }
+            System.out.println(count);
+            statement.close();
+            connection.close();       // отключение от БД
+            System.out.println("Отключение от СУБД выполнено.");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace(); // обработка ошибки  Class.forName
+            System.out.println("db.JDBC драйвер для СУБД не найден!");
+        } catch (SQLException e) {
+            e.printStackTrace(); // обработка ошибок  DriverManager.getConnection
+            System.out.println("Ошибка SQL !");
+        }
+        return count;
+    }
     
 }
